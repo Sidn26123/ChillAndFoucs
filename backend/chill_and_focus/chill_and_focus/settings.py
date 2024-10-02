@@ -190,3 +190,11 @@ CORS_ALLOWED_ORIGINS = [
     # Thêm các miền khác nếu cần
 ]
 CORS_ALLOW_CREDENTIALS = True
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+        },
+    },
+}
