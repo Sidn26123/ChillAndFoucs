@@ -166,7 +166,7 @@ FORMAT_SHOW_TIME = '%H:%M:%S %d/%m/%Y'
 
 from datetime import timedelta
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60*24),
     'REFRESH_TOKEN_LIFETIME': timedelta(seconds=SESSION_TIME_OUT),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,

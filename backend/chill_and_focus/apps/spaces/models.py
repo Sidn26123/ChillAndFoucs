@@ -7,8 +7,7 @@ class Space(models.Model):
         
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
-    thumbnail = models.CharField(max_length=255)
-    uri = models.CharField(max_length=255)
+    url = models.CharField(max_length=255)
     category = models.ForeignKey('SpaceCategory', on_delete=models.CASCADE)
     search_fields = ['name']
 
@@ -19,5 +18,6 @@ class SpaceCategory(models.Model):
         
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, unique=True)
+    thumbnail = models.CharField(max_length=255)
     search_fields = ['name']
 
