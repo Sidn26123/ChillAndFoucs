@@ -21,15 +21,21 @@ from channels.auth import AuthMiddlewareStack
 from apps.chats.routing import websocket_urlpatterns
 from apps.chats.consumer import ChatConsumer 
 from django.urls import path
-
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'chill_and_focus.settings')
 
+# application = ProtocolTypeRouter({
+#     "http": get_asgi_application(),
+#     "websocket": AuthMiddlewareStack(
+#         URLRouter(
+#             websocket_urlpatterns
+#         )
+#     ),
+# })
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),
-    "websocket": 
+    "websocket": AuthMiddlewareStack(
         URLRouter(
-            [
-                path('ws/chat/<str:room_name>/', ChatConsumer.as_asgi()),
-            ]
+            websocket_urlpatterns
         )
+    ),
 })

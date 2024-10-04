@@ -37,10 +37,18 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'daphne',
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
+    # 'django_cleanup.apps.CleanupConfig',
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
+    # 'django_htmx',
+    'channels',
+    'channels_redis',
     'corsheaders',
     'apps.users',
     'apps.clock',
@@ -70,7 +78,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     #'middlewares.custom_jwt_middleware.CustomJWTMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware'
+    # 'django_htmx.middleware.HtmxMiddleware',
+    # 'allauth.account.middleware.AccountMiddleware',
+
 ]
 
 ROOT_URLCONF = 'chill_and_focus.urls'
@@ -91,7 +102,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'chill_and_focus.wsgi.application'
+ASGI_APPLICATION = 'chill_and_focus.routing.application'
 
 
 # Database
@@ -194,7 +205,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("localhost", 6379)],
+            "hosts": [("127.0.0.1", 6379)],
         },
     },
 }
