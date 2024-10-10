@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'apps.rooms',
     'apps.space_templates',
     'apps.spaces',
+    'apps.chats'
 ]
 
 REST_FRAMEWORK = {
@@ -194,9 +195,13 @@ SIMPLE_JWT = {
     'JTI_CLAIM': 'jti',
 }
 
-CORS_ALLOWED_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True
+
+ACCESS_CONTROL_ALLOW_ORIGIN = '*'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "http://localhost:8000",
+
     # "http://localhost:3000/*"  # Địa chỉ React frontend của bạn
     # Thêm các miền khác nếu cần
 ]

@@ -21,6 +21,9 @@ from channels.auth import AuthMiddlewareStack
 from apps.chats.routing import websocket_urlpatterns
 from apps.chats.consumer import ChatConsumer 
 from django.urls import path
+from channels.security.websocket import AllowedHostsOriginValidator
+from middlewares.tokenMiddlwares import TokenAuthMiddleware
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'chill_and_focus.settings')
 
 # application = ProtocolTypeRouter({
@@ -33,9 +36,11 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'chill_and_focus.settings')
 # })
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),
-    "websocket": AuthMiddlewareStack(
-        URLRouter(
-            websocket_urlpatterns
+    "websocket": AllowedHostsOriginValidator(
+        TokenAuthMiddleware(
+            URLRouter(
+                websocket_urlpatterns
+            )
         )
     ),
 })
