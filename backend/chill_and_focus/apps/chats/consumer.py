@@ -1,9 +1,14 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
+
+ROOM_GROUP_NAME_PREFIX = 'chat'
+INVITE_GROUP_NAME_PREFIX = 'invite'
+
+
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
-        self.room_group_name = f'chat_{self.room_name}'
+        self.room_group_name = f'{ROOM_GROUP_NAME_PREFIX}_{self.room_name}'
         self.user = self.scope['user']
         # Tham gia nhóm chat
         await self.channel_layer.group_add(
@@ -46,6 +51,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
 
 
+
+
 class ScreenSharingConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
@@ -78,7 +85,7 @@ class ScreenSharingConsumer(AsyncWebsocketConsumer):
 class InviteConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.user_id = self.scope['url_route']['kwargs']['user_id']
-        self.room_group_name = f'invite_{self.user_id}'
+        self.room_group_name = f'{INVITE_GROUP_NAME_PREFIX}_{self.user_id}'
         await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name
@@ -101,7 +108,11 @@ class InviteConsumer(AsyncWebsocketConsumer):
                 'sender': text_data_json['sender'],
                 'receiver': text_data_json['receiver']
             })
-        
+        elif message_type == "accept":
+            await self.send_accept({
+                'room_name': text_data_json['room_name'],
+                'receiver': text_data_json['receiver']
+            })
     async def send_invite(self, event):
         room_name = event['room_name']
         sender = event['sender']
@@ -124,4 +135,25 @@ class InviteConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({
             'room_name': room_name,
             'sender': sender
+        }))
+
+    async def send_accept(self, event):
+        room_name = event['room_name']
+        receiver = event['receiver']
+
+        await self.channel_layer.group_send(
+            f'invite_{receiver}',
+            {
+                'type': 'send_accept_notification',
+                'room_name': room_name,
+                'receiver': receiver
+            }
+        )
+
+    async def send_accept_notification(self, event):
+        room_name = event['room_name']
+        receiver = event['receiver']
+        await self.send(text_data=json.dumps({
+            'room_name': room_name,
+            'receiver': receiver
         }))
