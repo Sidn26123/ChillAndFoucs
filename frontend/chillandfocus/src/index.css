@@ -1,0 +1,160 @@
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+        monospace;
+}
+
+html,
+body,
+#root {
+    height: 100%;
+    width: 100%;
+    font-family: 'Source Sans Pro', sans-serif;
+    overflow-x: hidden;
+}
+
+.app {
+    display: flex;
+    position: relative;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #e0e0e0;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+::-webkit-scrollbar-track:hover {
+    background: #555;
+}
+
+:root {
+    --background-color: #818181;
+    --bg-color: #262b34;
+    --text-color: #2D2D2F;
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #17a2b8;
+    --line-break: #818181;
+    --card-color: #565c62;
+}
+
+/* Dark mode theme */
+[data-theme='dark'] {
+    --background-color: #2D2D2F;
+    --text-color: #818181;
+    --primary-color: #0d6efd;
+    --secondary-color: #6c757d;
+    --success-color: #198754;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #0dcaf0;
+    --line-break: #e0e0e0;
+    --card-color: #3f4143;
+
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.background {
+    background-color: var(--background-color);
+}
+
+.text {
+    color: var(--text-color);
+}
+
+.primary {
+    color: var(--primary-color);
+}
+
+.secondary {
+    color: var(--secondary-color);
+}
+
+.secondary-bg {
+    background-color: var(--secondary-color);
+}
+
+.success {
+    color: var(--success-color);
+}
+
+.danger {
+    color: var(--danger-color);
+}
+
+.warning {
+    color: var(--warning-color);
+}
+
+.line {
+    color: var(--line-break);
+}
+
+.card-color {
+    background-color: var(--card-color);
+}
+.bg-color {
+    background-color: var(--bg-color);
+}
+.font-medium-light{
+    font-weight: 540;
+}
+.font-medium-plus{
+    font-weight: 550;
+}
+.app {
+    height: 100%;
+    width: 100%;
+    font-family: 'Source Sans Pro', sans-serif;
+    overflow-x: hidden;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

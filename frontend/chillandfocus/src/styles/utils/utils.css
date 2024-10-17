@@ -1,0 +1,82 @@
+.styled-input {
+    /* font-size: 12px; Đặt kích thước chữ */
+    background-color: transparent;
+    /* Loại bỏ màu nền */
+    margin: 0 5px;
+    /* Khoảng cách giữa nội dung và viền */
+    outline: none;
+    /* Loại bỏ viền khi focus */
+    box-sizing: border-box;
+    /* Bao gồm cả đường viền và padding trong kích thước */
+    transition: border-color 0.3s ease;
+    /* Hiệu ứng chuyển đổi viền khi focus */
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+.break-line-light {
+    /* border-top: 2px solid var(--line-break); */
+}
+.break-line-light.full-width::before {
+    border-top: 1px solid var(--line-break);
+    width: 100%;
+    right: 0;
+}
+
+.break-line-light::before {
+    content: "";
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+    right: 5%;
+    height: 1px;
+    background-color: var(--line-break);
+}
+.break-col-light{
+    border-top: 20px solid var(--line-break);
+}
+.break-col-light::before{
+    content: "";
+    display: block;
+    width: 1px;
+    margin: 0 auto;
+    height: 100%;
+    background-color: var(--line-break);
+}
+.video-container {
+    width: 100%;
+    /* height: 100%; */
+    overflow: hidden ;
+    aspect-ratio: 16/9;
+    pointer-events: none;
+}
+
+.video-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Đảm bảo video bao phủ toàn bộ khung */
+}
+
+.video-container iframe{
+    width: 300%;
+    height: 100%;
+    margin-left: -100%;
+    margin-top: -1%;
+    /* Đảm bảo video bao phủ toàn bộ khung */
+}
+
+.font-size-small {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.underline-div::after{
+    content: "";
+    display: block;
+    width: 100%;
+    height: 1px;
+    background-color: var(--line-break);
+}
