@@ -30,8 +30,9 @@ axios.interceptors.response.use(
                     console.log("Refresh token success: ", response.data.access);
                     localStorage.setItem("accessToken", response.data.access);
                     localStorage.setItem("refreshToken", response.data.refresh);
-
-                    return axios(error.config); // Thử lại yêu cầu ban đầu với token mới
+                    refresh = false;
+                    
+                    // return axios(error.config); // Thử lại yêu cầu ban đầu với token mới
                 }
             } catch (err) {
                 console.error("Failed to refresh token", err);

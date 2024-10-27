@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { useDispatch } from 'react-redux';
 import Layer from './components/global/layer';
 import { login } from './redux/slicers/userSlicer';
+import store from "./redux/store";
+import { CHAT_API_URL, WS_ROOT_URL } from "./constants/apis";
 
 
 
@@ -28,6 +30,15 @@ function App() {
             // Nếu không có token, điều hướng người dùng tới trang đăng nhập
         }
     }, []);
+
+    function init(){
+
+    }
+    function initSocket(user, token){
+        store.dispatch({type: "chat/initInviteSocket", payload: {url: `${WS_ROOT_URL}/invite/${user.username}/?token=${token}`}});
+        store.dispatch({type: "chat/WS_CONNECT", payload: {url: `${WS_ROOT_URL}/invite/${user.username}/?token=${token}`}});
+
+    }
 
     return (
         <div className="App">

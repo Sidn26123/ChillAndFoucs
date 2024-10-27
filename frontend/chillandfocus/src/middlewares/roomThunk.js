@@ -14,6 +14,8 @@ import { callAPIWithCredentials } from "../components/common/apis";
 import { Socket } from "../utils/Socket";
 
 export const joinRoom = (roomName, type = "join-room") => async (dispatch, getState) => {
+    console.log("Joining room:", roomName);
+    
     try {
         const token = localStorage.getItem("accessToken");
 

@@ -40,7 +40,8 @@ const chatSlicer = createSlice({
         setReceivedInvitations: (state, action) => {
             state.receivedInvitations = action.payload;
         },
-        addrReceivedInvitations: (state, action) => {
+        addReceivedInvitations: (state, action) => {
+            console.log("Received invitation", action.payload);
             state.receivedInvitations.push(action.payload);
         },
         setRoomSocket: (state, action) => {
@@ -66,7 +67,7 @@ export const {
     setParticipants,
     addParticipants,
     setReceivedInvitations,
-    addrReceivedInvitations,
+    addReceivedInvitations,
     setRoomSocket,
     clearRoom,
     acceptInvitation,

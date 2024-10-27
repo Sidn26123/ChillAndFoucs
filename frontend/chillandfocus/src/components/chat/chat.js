@@ -206,6 +206,7 @@ const RoomComponent = () => {
     // );
     const handleJoinRoom = useCallback((roomName, type) => {
         // dispatch(joinRoom(roomName, type));
+        
         store.dispatch(joinRoom(roomName, type));
     }, []);
     // const deleteRoom = async (roomName) => {
@@ -260,6 +261,7 @@ const RoomComponent = () => {
 
         if (inputMessage.trim() !== "") {
             store.dispatch(addMessage({ message: inputMessage, sender: user }));
+            store.dispatch({type: "chat/sendMessage", payload: JSON.stringify({message: inputMessage, sender: user})});
         }
     }
 
@@ -282,7 +284,11 @@ const RoomComponent = () => {
     useEffect(() => {
         handleCreateRoom();
     }, [handleCreateRoom]);
-
+    useEffect(() => {
+        if (currentRoom !== "") {
+            handleJoinRoom(currentRoom);
+        }
+    }, [currentRoom, handleJoinRoom]);
     function handleOutRoom() {}
     const [copySuccess, setCopySuccess] = React.useState(false);
     return (
@@ -293,7 +299,7 @@ const RoomComponent = () => {
                 </div>
                 <div className="break-line-light full-width"></div>
                 <div className="flex flex-row justify-between items-center mr-10 my-2">
-                    <span>Mã phòng: {myRoom}</span>
+                    <span>Mã phòng: {currentRoom}</span>
                     {/* <span>
                         Mã phòng: <input onChange={(e) => handleJoinRoom(e.target.value)}></input>
                     </span> */}
@@ -397,7 +403,7 @@ const RoomComponent = () => {
 
 const InviteComponent = () => {
     const [inviteMode, setInviteMode] = React.useState(0);
-    const [inviteSocket, setInviteSocket] = React.useState(null);
+    // const [inviteSocket, setInviteSocket] = React.useState(null);
     const myRoom = useSelector((state) => state.chat.myRoom);
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user.user);
@@ -410,7 +416,7 @@ const InviteComponent = () => {
     function initSocket() {
         const token = localStorage.getItem("accessToken");
 
-        store.dispatch({type: "chat/initInviteSocket", payload: {url: `${WS_ROOT_URL}/invite/${user.id}/?token=${token}`}});
+        store.dispatch({type: "chat/initInviteSocket", payload: {url: `${WS_ROOT_URL}/invite/${user.username}/?token=${token}`}});
         
         // const socket = new WebSocket(`${WS_ROOT_URL}/invite/${user.id}/?token=${token}`);
         // socket.onopen = async function (e) {
@@ -441,11 +447,13 @@ const InviteComponent = () => {
         //     );
         // }
         // store.dispatch({type: "chat/inviteUser", payload: JSON.stringify({roomName: myRoom, sender: user, receiver: receiver})});
-        store.dispatch(JSON.stringify({type: "chat/inviteUser", payload: {roomName: myRoom}}));
+        store.dispatch({type: "chat/inviteUser", payload: {room_name: myRoom, type: "invite", sender: (user), receiver: receiver}});
         
     }
 
     function handleAcceptInvitation(sender, roomName) {
+
+        // console.log("Accept invitation", sender, roomName);
         // if (inviteSocket) {
         //     inviteSocket.send(
         //         JSON.stringify({
@@ -454,8 +462,9 @@ const InviteComponent = () => {
         //         })
         //     );
         // }
+        console.log("Accept invitation", sender, roomName);
         store.dispatch(acceptInvitation({sender: sender, roomName: roomName}));
-        
+        store.dispatch(joinRoom(roomName, "join-room"));
         dispatch(setCurrentRoom(roomName));
     }
 
@@ -505,10 +514,11 @@ const InviteComponent = () => {
                                 <div>
                                     {true ? (
                                         <div className="flex flex-row justify-between items-center">
+                                            {console.log("Invitation", invitation)}
                                             <span className="pr-2">
                                                 <FontAwesomeIcon
                                                     icon={faCheck}
-                                                    onClick={handleAcceptInvitation(
+                                                    onClick={() => handleAcceptInvitation(
                                                         invitation.sender,
                                                         invitation.roomName
                                                     )}
@@ -517,7 +527,7 @@ const InviteComponent = () => {
                                             <span>
                                                 <FontAwesomeIcon
                                                     icon={faXmark}
-                                                    onClick={handleDenyInvitation(
+                                                    onClick={() => handleDenyInvitation(
                                                         invitation.roomName
                                                     )}
                                                 />

@@ -30,6 +30,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = text_data_json['message']
         sender = text_data_json['sender']
         # Gửi message tới nhóm chat
+        print("message: ", message)
         await self.channel_layer.group_send(
             self.room_group_name,
             {
@@ -43,6 +44,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def chat_message(self, event):
         message = event['message']
         sender = event['sender']
+        print("smessage: ", message)
         # Gửi message tới WebSocket
         await self.send(text_data=json.dumps({
             'message': message,
@@ -84,8 +86,9 @@ class ScreenSharingConsumer(AsyncWebsocketConsumer):
     
 class InviteConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        self.user_id = self.scope['url_route']['kwargs']['user_id']
-        self.room_group_name = f'{INVITE_GROUP_NAME_PREFIX}_{self.user_id}'
+        self.user_name = self.scope['url_route']['kwargs']['user_name']
+        self.room_group_name = f'{INVITE_GROUP_NAME_PREFIX}_{self.user_name}'
+        print("room_group_name: ", self.room_group_name)
         await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name
@@ -100,6 +103,7 @@ class InviteConsumer(AsyncWebsocketConsumer):
         )
     async def receive(self, text_data=None, bytes_data=None):
         text_data_json = json.loads(text_data)
+        print("text_data_json: ", text_data_json.get('type'))
         message_type = text_data_json['type']
 
         if message_type == "invite":
@@ -117,9 +121,9 @@ class InviteConsumer(AsyncWebsocketConsumer):
         room_name = event['room_name']
         sender = event['sender']
         receiver = event['receiver']
-        
+        print("receiver: ", str(receiver))
         await self.channel_layer.group_send(
-            f'invite_{receiver}',
+            f'invite_{str(receiver)}',
             {
                 'type': 'send_notification',
                 'room_name': room_name,
